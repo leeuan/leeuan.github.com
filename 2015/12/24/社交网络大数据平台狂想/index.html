@@ -1,0 +1,667 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="大数据," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="现在，大数据已经是一个热得不能再热的词了。某天，我们几个同事在走廊上聊天，谁知隔墙有耳，没有过几天隔壁公司的一位先生主动上门提出希望和我们交流一下大数据相关的技术。他说听到我们在讨论有关大数据的技术，而他们公司也在做大数据相关的项目，希望沟通一下看有没有什么可以合作的机会。我们现在办公室所在的写字楼并不在IT和互联网行业集中的区域，两家做大数据的公司隔着一条走廊，门对门，这样的“巧合”，也许不再是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="社交网络大数据平台狂想">
+<meta property="og:url" content="http://yoursite.com/2015/12/24/社交网络大数据平台狂想/index.html">
+<meta property="og:site_name" content="Bit Life">
+<meta property="og:description" content="现在，大数据已经是一个热得不能再热的词了。某天，我们几个同事在走廊上聊天，谁知隔墙有耳，没有过几天隔壁公司的一位先生主动上门提出希望和我们交流一下大数据相关的技术。他说听到我们在讨论有关大数据的技术，而他们公司也在做大数据相关的项目，希望沟通一下看有没有什么可以合作的机会。我们现在办公室所在的写字楼并不在IT和互联网行业集中的区域，两家做大数据的公司隔着一条走廊，门对门，这样的“巧合”，也许不再是">
+<meta property="og:image" content="http://yoursite.com/img/hive.png">
+<meta property="og:updated_time" content="2016-01-29T13:33:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="社交网络大数据平台狂想">
+<meta name="twitter:description" content="现在，大数据已经是一个热得不能再热的词了。某天，我们几个同事在走廊上聊天，谁知隔墙有耳，没有过几天隔壁公司的一位先生主动上门提出希望和我们交流一下大数据相关的技术。他说听到我们在讨论有关大数据的技术，而他们公司也在做大数据相关的项目，希望沟通一下看有没有什么可以合作的机会。我们现在办公室所在的写字楼并不在IT和互联网行业集中的区域，两家做大数据的公司隔着一条走廊，门对门，这样的“巧合”，也许不再是">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: '',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> 社交网络大数据平台狂想 | Bit Life </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Bit Life</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">比特生命</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                社交网络大数据平台狂想
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-12-24T00:00:00+08:00" content="2015-12-24">
+              2015-12-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/杂谈/" itemprop="url" rel="index">
+                    <span itemprop="name">杂谈</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>现在，大数据已经是一个热得不能再热的词了。某天，我们几个同事在走廊上聊天，谁知隔墙有耳，没有过几天隔壁公司的一位先生主动上门提出希望和我们交流一下大数据相关的技术。他说听到我们在讨论有关大数据的技术，而他们公司也在做大数据相关的项目，希望沟通一下看有没有什么可以合作的机会。我们现在办公室所在的写字楼并不在IT和互联网行业集中的区域，两家做大数据的公司隔着一条走廊，门对门，这样的“巧合”，也许不再是巧合，可以改写一个段子，现在随便扔一个砖头砸到十个人，有三个都是做大数据的。大数据这个词虽然很热，但真正如何去应用大数据与相关技术，其实大家都还在探索，既然在探索，我们不妨来狂想一下大数据可能带来的技术革命。</p>
+<a id="more"></a>
+<p><img src="/img/hive.png" alt="蜂巢是群体智慧的成果"></p>
+<p>现在，大数据已经是一个热得不能再热的词了。某天，我们几个同事在走廊上聊天，谁知隔墙有耳，没有过几天隔壁公司的一位先生主动上门提出希望和我们交流一下大数据相关的技术。他说听到我们在讨论有关大数据的技术，而他们公司也在做大数据相关的项目，希望沟通一下看有没有什么可以合作的机会。我们现在办公室所在的写字楼并不在IT和互联网行业集中的区域，两家做大数据的公司隔着一条走廊，门对门，这样的“巧合”，也许不再是巧合，可以改写一个段子，现在随便扔一个砖头砸到十个人，有三个都是做大数据的。大数据这个词虽然很热，但真正如何去应用大数据与相关技术，其实大家都还在探索，既然在探索，我们不妨来狂想一下大数据可能带来的技术革命。</p>
+<p>风起于青萍之末，让我们飞驰狂奔的思维从人类技术的源头开始。从人类祖先还在非洲森林里用石头砸坚果开始，到人类制造的机器人登陆火星，人类技术的发展的线路一直是通过发明和创造各种工具和技术来扩展人类自己的能力，发明了汽车、飞机、火箭、甚至是宇宙飞船来扩展自己的运动能力；发明了标枪、弓箭、枪支来扩展自己的捕猎能力。无论是哪一种人类的发明都是学习大自然的结果、人类很可能是从滚动的圆木或者石头学会了制造轮子，也很可能是通过野火学会了用火。人类最终一定会学会人类自己的思维创造出新的模仿生命体的思维。发明计算机将是创造思维的第一步。人类思维最伟大之处在于善于学习并进行创造，那么人类创造的思维理所当然的需要进行学习。我们把人类创造的思维叫做人工智能。人工智能如果真能够像人为了扩展自己能力而进行的其他创造一样能够扩展人类的智能，那么必然引发一场新的技术革命，这场革命可以预想给人类带来的影响将远远大于前面几次的技术革命。</p>
+<p>人工智能怎么让机器进行学习呢？最近二十年来，已经发明了多种机器学习算法，特别是人工多层神经网络更是模仿了人类大脑的结构，这种人工多层神经网络在人脸识别，图像识别，语音识别这些原来人类具有优势的能力上开始挑战人类。这些机器学习算法都需要学习海量的人类知识才能模仿人类的思维，这就引发了第二个问题，机器从什么地方来学习人类的知识呢？上世纪八十年代的科幻电影《外星人E.T.》里面ET是通过看电视和书籍来学习人类知识，因为那个时代，电视节目和书籍是人类知识较为密集的媒体，而现在互联网肯定是人类知识最为密集的地方。互联网现在已经进入了后社交网络时代，社交网络承载了当代最为丰富和复杂的人类知识，另外补充一点，人类有别于其他物种，除了我们独有的学习和思维能力外我们还是一种能够构建复杂社会的物种，社交是维系人类社会的关键。那么我们有理由相信让机器从社交网络中进行学习将很有可能触动人工智能革命的启动按钮。但是，现在的社交网络被一些大型互联网公司掌控，信息相互独立而封闭，他们并没有意愿完全开放给人们去利用这些由全人类网络所积累的知识。所以人类需要一个整合所有社交网络数据并且开放的平台，而我们正在从事这样的工作，也许我们就是打开人工智能革命大门的人。</p>
+<p>一个开放和整合了全人类社交网络数据的平台如果能够被机器学习算法充分的利用可能引发人工智能革命，另外，这样一个把大量人类社交信息连接在一起的平台，有可能引发质变，打破人类个体的智能极限。大自然在创造生物的时候，一直在应用量变到质变的规律，生物大爆发也是量变引发的质变，单细胞生物到多细胞生物也是如此。大量信息聚集起来，通过信息把数量巨大的单个生命体连接起来会发生什么？大自然已经给我们了很好的启迪，有人在一个无比的复杂的迷宫出口放置上食物，然后让一群行军蚁通过这个迷宫，除了个别蚂蚁迷路以外，大部分蚂蚁都顺利的通过了迷宫，而个别人类也会在这个迷宫前面迷路。这些迷路的人类有良好的视觉，大脑皮层有着10的10次方个神经元，而这些行军蚁大部分都没有视觉，只有30K个神经元。行军蚁通过迷宫采用了与人类通过迷宫的方法完全不同的方法，它们利用一种信息激素来标识食物和路径，只要一只蚂蚁发现了食物，其他蚂蚁跟随这些信息激素就能找到出口。由于每个蚂蚁的30k神经元都是独立做出判断怎么选择路径的，而迷宫的路径是有限数量的，那么这些数量众多的蚂蚁在同时进行大量随机路径选择，只要蚂蚁的数量足够多，正确的路径就一定会被蚂蚁发现，迷宫很快就会被破解。蚁群神奇之处就在于两个方面，首先蚁群有着数量众多能够做出独立选择的个体，其次，这些个体能够通过信息激素进行通信。大多数人类个体都能做出独立的判断，而社交网络整合平台又能让个体间的通信成为可能，那么我们一定能够创造出一些奇迹，但是实际情况并不是这么简单，人类在社交网络上留下的信息过于复杂，不是一种简单的化学物质，所以我们要创造奇迹，必须把这些复杂的信息处理成被计算机可以理解的信息。现在众多的技术例如自然语言处理，图像识别技术都在努力把这些信息转化成计算机能够处理的信息，这些技术已经取得了进展，但是我们还需要努力把这些进展应用到实际工程中。奇迹一定会发生，只等待这最后那一点技术突破。这种类似蚂蚁体，把多个个体集合在一起去中心化后所产生的智能被称作群体智能。群体智能是人类突破个人智能限制的重要方向，而我们正在构建的这个聚集了全球所有社交网络的平台，可以成为激发人类群体智能起点。只要我们能保证这些社交网络中的数据能够被识别和认知，那么突破人类个体智能极限的弓箭已在玄上。</p>
+<p>放开思维狂想吧，大数据不只是精准营销，不只是用户画像，不只是各种统计预测，它也许就是开启人类未来的那把钥匙。</p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/大数据/" rel="tag">#大数据</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/12/30/为了那片森林——决策树算法训练过程分析/" rel="prev" title="为了那片森林--决策树算法训练过程分析">
+                为了那片森林--决策树算法训练过程分析 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+
+        
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="Leeuan" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Leeuan</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Leeuan</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+    
+
+  
+
+
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+
+  
+  
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+</body>
+</html>

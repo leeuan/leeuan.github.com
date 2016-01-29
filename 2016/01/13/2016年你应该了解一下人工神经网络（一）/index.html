@@ -1,0 +1,744 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="分类器 人工神经网络," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="很多科技媒体都把刚刚到来的2016年定义为人工智能年。刚刚在拉斯维加斯举行的CES也似乎也印证了这一点，大量的人工智能设备在展览上被展出，从无人机到机器人都避免不了人工智能技术。
+在CES举行的前一周，著名前PHP程序员扎克伯格在自己的facabook页面上公布了自己2016年的年度挑战计划，作为Facebook CEO的扎克伯格准备DIY一个人工智能助手，他计划让人工智能助手可以让他通过语音控制">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2016年你应该了解一下人工神经网络（一）">
+<meta property="og:url" content="http://yoursite.com/2016/01/13/2016年你应该了解一下人工神经网络（一）/index.html">
+<meta property="og:site_name" content="Bit Life">
+<meta property="og:description" content="很多科技媒体都把刚刚到来的2016年定义为人工智能年。刚刚在拉斯维加斯举行的CES也似乎也印证了这一点，大量的人工智能设备在展览上被展出，从无人机到机器人都避免不了人工智能技术。
+在CES举行的前一周，著名前PHP程序员扎克伯格在自己的facabook页面上公布了自己2016年的年度挑战计划，作为Facebook CEO的扎克伯格准备DIY一个人工智能助手，他计划让人工智能助手可以让他通过语音控制">
+<meta property="og:image" content="http://yoursite.com/img/brain.jpeg">
+<meta property="og:image" content="http://yoursite.com/img/nucleus.png">
+<meta property="og:image" content="http://latex.codecogs.com/gif.latex?%5CLARGE%20f%28x%29%3D%5Cfrac%7B1%7D%7B1+e%5E%7B-x%7D%7D">
+<meta property="og:updated_time" content="2016-01-29T13:42:06.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2016年你应该了解一下人工神经网络（一）">
+<meta name="twitter:description" content="很多科技媒体都把刚刚到来的2016年定义为人工智能年。刚刚在拉斯维加斯举行的CES也似乎也印证了这一点，大量的人工智能设备在展览上被展出，从无人机到机器人都避免不了人工智能技术。
+在CES举行的前一周，著名前PHP程序员扎克伯格在自己的facabook页面上公布了自己2016年的年度挑战计划，作为Facebook CEO的扎克伯格准备DIY一个人工智能助手，他计划让人工智能助手可以让他通过语音控制">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: '',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> 2016年你应该了解一下人工神经网络（一） | Bit Life </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Bit Life</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">比特生命</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                2016年你应该了解一下人工神经网络（一）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-01-13T00:00:00+08:00" content="2016-01-13">
+              2016-01-13
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>很多科技媒体都把刚刚到来的2016年定义为人工智能年。刚刚在拉斯维加斯举行的CES也似乎也印证了这一点，大量的人工智能设备在展览上被展出，从无人机到机器人都避免不了人工智能技术。</p>
+<p>在CES举行的前一周，著名前PHP程序员扎克伯格在自己的facabook页面上公布了自己2016年的年度挑战计划，作为Facebook CEO的扎克伯格准备DIY一个人工智能助手，他计划让人工智能助手可以让他通过语音控制家中的一切电子设备，还希望人工智能助手能够通过面部识别认识自己的朋友和家人，甚至是照看他才出生不久的女儿Max。</p>
+<a id="more"></a>
+<p><img src="/img/brain.jpeg" alt="神经元和神经元数学模型"></p>
+<p>很多科技媒体都把刚刚到来的2016年定义为人工智能年。刚刚在拉斯维加斯举行的CES也似乎也印证了这一点，大量的人工智能设备在展览上被展出，从无人机到机器人都避免不了人工智能技术。</p>
+<p>在CES举行的前一周，著名前PHP程序员扎克伯格在自己的facabook页面上公布了自己2016年的年度挑战计划，作为Facebook CEO的扎克伯格准备DIY一个人工智能助手，他计划让人工智能助手可以让他通过语音控制家中的一切电子设备，还希望人工智能助手能够通过面部识别认识自己的朋友和家人，甚至是照看他才出生不久的女儿Max。</p>
+<p>既然大家都在给2016年的人工智能打鸡血，难道你不应该也了解一下人工智能吗？了解一点人工智能至少能听懂小伙伴聊天，不至于一直活在2015年。</p>
+<p>从了解人工神经网络开始了解人工智能是不错的选择。本文在尽量不堆砌大量数学公式和数学推导过程的条件下，让你对人工神经网络有一个初步的了解，当然为了能够解释清楚难免会列出程序伪代码和少量的数学公式。</p>
+<p>人工智能一开始的目的就是通过技术手段模拟或者创造人类的智能，那么很自然的思路就是搞清楚人类大脑的结构和工作原理，然后建立数学模型，这样就可以通过数学运行来实现人工智能。</p>
+<p>按照这个思路，通过对大脑孜孜不倦地研究，人们发现大脑是由无数个神经元连接组成。每个神经元接收信号经过一定处理然后输出给其他神经元或者效应器。每个神经元的输出信号只有兴奋或抑制两种，也就是说神经元会根据收到的信号要么输出兴奋信号要么输出抑制信号。神经元用于接收信号的部分被称作树突，树突可以接收多个其它神经或者感应器传递过来的信号。神经元用于输出信号的部分被称为轴突，轴突能够把神经元的输出通过信号传递给另一个神经元或者效能器。根据神经元的工作原理，人们建立了神经元的数学模型。</p>
+<p><img src="/img/nucleus.png" alt="神经元和神经元数学模型"></p>
+<p>上图的左边是神经网络的生物学结构图，右侧是神经元的数学模型。从图中的数学模型可以看出，神经元的每个树突都有不同的权重w，神经元会把树突的输入值乘以对应的权重w,然后再把所有乘以权重后的值输值累加起来再加上一个与输入无关的值b（这个值被称为偏置值）,最后传递给一个被称作激励函数的函数,激励函数的返回值就是神经元的输出。可以用下面的伪代码来表达神经元的数学模型。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#假设神经元有4个树突，每个树突对应的权重分别为w0,w1,w2,w3</span></span><br><span class="line"><span class="comment">#4个树突的输入值分别为i0,i1,i2,i3</span></span><br><span class="line"><span class="comment">#激励函数定义为：activation</span></span><br><span class="line">output = activation(i0 * w0 + i1 * w1 + i2 * w2 + i3 * w3 + b)</span><br></pre></td></tr></table></figure>
+<p>由于神经元的输出只有兴奋和抑制两种状态，我们可以用1来表示兴奋，用0来表示抑制，那么激励函数的输出值应该一个固定区间内。0~1这个区间是一个不错的选择，一般情况我们使用sigmoid函数作为激励函数。</p>
+<p><img src="http://latex.codecogs.com/gif.latex?%5CLARGE%20f%28x%29%3D%5Cfrac%7B1%7D%7B1&plus;e%5E%7B-x%7D%7D"></p>
+<p>sigmoid函数的输出值分布在0~1之间非常接近生物神经元的原理。不愿意看数学公式的可以看下面的Python代码。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">activation</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>/(<span class="number">1</span>+math.e**(-<span class="number">1</span>*x))</span><br></pre></td></tr></table></figure>
+<p>神经元的数学模型看起如此的简陋，能用来做什么呢？其实神经元的数学模型已经能够很好的模拟神经元的功能。生物神经元的主要作用就是能够识别输入的信号，所谓识别就是能够认识和区分输入信号的类别，通俗一点也就是能够进行分类。其实神经元的数学模拟也能够对数据进行分类。</p>
+<p>接下来我们就用“费雪鸢尾花卉数据集”中的2条数据来验证神经元数学模型的作用。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">花萼长度</th>
+<th style="text-align:center">花萼宽度</th>
+<th style="text-align:center">花瓣长度</th>
+<th style="text-align:center">花瓣宽度</th>
+<th style="text-align:center">鸢尾花品种</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">5.3</td>
+<td style="text-align:center">3.7</td>
+<td style="text-align:center">1.5</td>
+<td style="text-align:center">0.2</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">7.0</td>
+<td style="text-align:center">3.2</td>
+<td style="text-align:center">4.7</td>
+<td style="text-align:center">1.4</td>
+<td style="text-align:center">1</td>
+</tr>
+</tbody>
+</table>
+<p>上表数据分别是两种不同鸢尾花品种的数据，神经元可以根据鸢尾花花瓣的尺寸判断出鸢尾花的品种。我们把鸢尾花的花萼长度，花萼宽度，花瓣长度，花瓣宽度输入给神经元的4个树突，神经元的输出与阈值0.5比较，大于0.5为品种0的鸢尾花，大于0.5为品种1的鸢尾花。</p>
+<p>神经元树突权重取值如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">w0</th>
+<th style="text-align:center">w1</th>
+<th style="text-align:center">w3</th>
+<th style="text-align:center">w4</th>
+<th style="text-align:center">偏置值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">0.03</td>
+<td style="text-align:center">-1.8</td>
+<td style="text-align:center">2.1</td>
+<td style="text-align:center">1.9</td>
+<td style="text-align:center">-0.05</td>
+</tr>
+</tbody>
+</table>
+<p>利用上面定义的activation函数计算第1条数据：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="prompt">&gt;&gt;&gt; </span>activation(<span class="number">5.3</span>*<span class="number">0.03</span>+<span class="number">3.7</span>*-<span class="number">1.8</span>+<span class="number">1.5</span>*<span class="number">2.1</span>+<span class="number">0.2</span>*<span class="number">1.9</span>-<span class="number">0.05</span>)</span><br><span class="line"><span class="number">0.04648612923820226</span></span><br></pre></td></tr></table></figure>
+<p>计算结果小于0.5，第1条数据的品种为0</p>
+<p>计算第2条数据：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="prompt">&gt;&gt;&gt; </span>activation(<span class="number">7.0</span>*<span class="number">0.03</span>+<span class="number">3.2</span>*-<span class="number">1.8</span>+<span class="number">4.7</span>*<span class="number">2.1</span>+<span class="number">1.4</span>*<span class="number">1.9</span>-<span class="number">0.05</span>)</span><br><span class="line"><span class="number">0.9990229546827732</span></span><br></pre></td></tr></table></figure>
+<p>计算结果大于0.5，第2条数据的品种为1</p>
+<p>上面的计算已经很好的验证了神经元数学模型已经可以实现对数据的分类。一般情况下我们都会使用多个神经元组成一个神经元网络来实现对数据进行分类的功能。</p>
+<p>现在还有一个疑问，首先，神经元树突的权重值w和偏置值b是怎么来的呢？其实权重和偏置都是通过机器学习的方式来获得。使用一个已经有分类结果的数据对神经网络进行训练从而获取权重值w和偏置值b。现在已经有多种训练神经网络的方法，BP神经网络是其中一种比较有效的神经网络训练方法，下篇文章我们将介绍BP神经网络。</p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/分类器-人工神经网络/" rel="tag">#分类器 人工神经网络</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/01/07/森林的尽头--浅议随机森林算法原理/" rel="next" title="森林的尽头--浅议随机森林算法原理">
+                <i class="fa fa-chevron-left"></i> 森林的尽头--浅议随机森林算法原理
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/01/15/2016年你应该了解一下人工神经网络（二）/" rel="prev" title="2016年你应该了解一下人工神经网络（二）">
+                2016年你应该了解一下人工神经网络（二） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+
+        
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="Leeuan" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Leeuan</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Leeuan</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+    
+
+  
+
+
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+
+  
+  
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+</body>
+</html>

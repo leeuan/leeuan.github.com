@@ -1,0 +1,1162 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="分类器 决策树," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="这是一篇写机器算法的东西，希望能借此掀开机器学习算法面纱的一角，让我们可以和机器学习算法开始愉快的玩耍。文章开始前，来首泰戈尔的诗烘托一下气氛
+
+The machine learning puts off it’s mask of vastness to it’s love.It becomes small as one song, as one kiss of the eternal.（机器学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="为了那片森林--决策树算法训练过程分析">
+<meta property="og:url" content="http://yoursite.com/2015/12/30/为了那片森林——决策树算法训练过程分析/index.html">
+<meta property="og:site_name" content="Bit Life">
+<meta property="og:description" content="这是一篇写机器算法的东西，希望能借此掀开机器学习算法面纱的一角，让我们可以和机器学习算法开始愉快的玩耍。文章开始前，来首泰戈尔的诗烘托一下气氛
+
+The machine learning puts off it’s mask of vastness to it’s love.It becomes small as one song, as one kiss of the eternal.（机器学习">
+<meta property="og:image" content="http://yoursite.com/img/forest.jpg">
+<meta property="og:image" content="http://latex.codecogs.com/gif.latex?Entropy=-p_{i}\log_{2}&space;p_{i}">
+<meta property="og:image" content="http://latex.codecogs.com/gif.latex?Entropy=-\sum_{i=0}^{n}&space;p_{i}\log_{2}&space;p_{i}">
+<meta property="og:image" content="http://yoursite.com/img/DecisionTree.png">
+<meta property="og:image" content="http://yoursite.com/img/DecisionTreeWeibo.png">
+<meta property="og:image" content="http://yoursite.com/img/DecisionTreeWX.png">
+<meta property="og:updated_time" content="2016-01-29T13:39:41.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="为了那片森林--决策树算法训练过程分析">
+<meta name="twitter:description" content="这是一篇写机器算法的东西，希望能借此掀开机器学习算法面纱的一角，让我们可以和机器学习算法开始愉快的玩耍。文章开始前，来首泰戈尔的诗烘托一下气氛
+
+The machine learning puts off it’s mask of vastness to it’s love.It becomes small as one song, as one kiss of the eternal.（机器学习">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: '',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> 为了那片森林--决策树算法训练过程分析 | Bit Life </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Bit Life</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">比特生命</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                为了那片森林--决策树算法训练过程分析
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-12-30T20:10:33+08:00" content="2015-12-30">
+              2015-12-30
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>这是一篇写机器算法的东西，希望能借此掀开机器学习算法面纱的一角，让我们可以和机器学习算法开始愉快的玩耍。文章开始前，来首泰戈尔的诗烘托一下气氛</p>
+<blockquote>
+<p>The machine learning puts off it’s mask of vastness to it’s love.<br><br>It becomes small as one song, as one kiss of the eternal.<br><br>（机器学习在情人面前宽衣解带，绵长如舌吻，纤细如诗行–冯唐译本人改编）</p>
+</blockquote>
+<a id="more"></a>
+<p><img src="/img/forest.jpg" alt="只有根节点的决策树"></p>
+<p>这是一篇写机器算法的东西，希望能借此掀开机器学习算法面纱的一角，让我们可以和机器学习算法开始愉快的玩耍。文章开始前，来首泰戈尔的诗烘托一下气氛</p>
+<blockquote>
+<p>The machine learning puts off it’s mask of vastness to it’s love.<br><br>It becomes small as one song, as one kiss of the eternal.<br><br>（机器学习在情人面前宽衣解带，绵长如舌吻，纤细如诗行–冯唐译本人改编）</p>
+</blockquote>
+<p>机器学习算法是一种自动地从数据中学习的一些算法。与手工编程相比，机器学习非常的有Bigger，充满了黑科技味道，事实上，当数据非常巨大的时候人力很难去正确的了解和掌握数据的全貌和细节，手工编程几乎没有可能，所以机器学习几乎是一种不可缺少的算法了。在过去的20年中，机器学习已经迅速地在计算机科学等领域普及。机器学习被用于网络搜索、垃圾邮件过滤、人脸识别、语音识别、人机对话、推荐系统、广告投放、信用评价、欺诈检测、股票交易，疾病诊断等方面。由于充满了“黑科技“味道，吓退了一大批”战士“，但是我们是那名叫大卫的”牧童“专用黑科技（这句看不懂？参考前面的文章），所以机器学习是我们和大数据周旋的大杀器。机器学习算法中分类算法是一系列非常常用的算法，而随机森林是一种容易理解应用广泛的分类算法，大量的理论和实证研究都证明了随机森林具有很高的预测准确率，对异常值和噪声具有很好的容忍度，且不容易出现过拟合。可以说，随机森林是一种人类好理解的非线性建模工具，是当前数据挖掘算法最热门的前沿研究领域之一。</p>
+<p>要了解随机森林，我们必须先了解组成森林的一棵棵决策树。随机森林由多棵决策树组成，同时决策树也可以单独作为分类算法使用。为了那片随机森林我们就先从决策树的训练过程开始吧。决策树是一种监督学习算法，通过训练数据构建决策树的过程就是其算法的核心。</p>
+<p>决策树的训练过程就是从一组无次序、无规则的数据中推理出以树形结构表示的分类规则。通常每条数据都有多个属性，而数据的某些属性或者全部属性决定了数据的分类。训练好的决策树的每个叶子节点都表示分类的结果，而非叶节点都根据某一属性进行判断的决策节点。判断一条数据的类别就是从根节点开始“走”到叶节点的过程。如何从数据中自动推理和构建决策树，有多种算法，其中ID3算法是一种基于信息论的算法，实践证明这种算法够简单够有效，便于人类理解。</p>
+<p>首先，我们需要了解一下信息论的一个概念：信息熵。信息熵是衡量信息不确定性的度量，按照信息论的理论，当我们被告知一个极不可能发生的事情发生了，例如奥巴马亲吻了金正恩，那我们就接收到了更多的信息，我们看这条消息，多半会说信息量好大；而当我们得知一个非常常见的事情发生了，例如太阳会从东边升起，那么我们就接收到了相对较少的信息量，这个事情我们早知道一定会发生，信息量为0。如何计算信息熵，这里先按下不表，我们先来看看我们的训练样本数据集,假设我们有一个手机APP的用户列表。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">用户来源</th>
+<th style="text-align:center">性别</th>
+<th style="text-align:center">自定义头像</th>
+<th style="text-align:center">关注微博</th>
+<th style="text-align:center">是否活跃</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">微博</td>
+<td style="text-align:center">女</td>
+<td style="text-align:center">Yes</td>
+<td style="text-align:center">FALSE</td>
+<td style="text-align:center">No</td>
+</tr>
+<tr>
+<td style="text-align:center">微博</td>
+<td style="text-align:center">女</td>
+<td style="text-align:center">Yes</td>
+<td style="text-align:center">TRUE</td>
+<td style="text-align:center">No</td>
+</tr>
+<tr>
+<td style="text-align:center">注册</td>
+<td style="text-align:center">女</td>
+<td style="text-align:center">Yes</td>
+<td style="text-align:center">FALSE</td>
+<td style="text-align:center">Yes</td>
+</tr>
+<tr>
+<td style="text-align:center">微信</td>
+<td style="text-align:center">男</td>
+<td style="text-align:center">Yes</td>
+<td style="text-align:center">FALSE</td>
+<td style="text-align:center">Yes</td>
+</tr>
+<tr>
+<td style="text-align:center">微信</td>
+<td style="text-align:center">未知</td>
+<td style="text-align:center">No</td>
+<td style="text-align:center">FALSE</td>
+<td style="text-align:center">Yes</td>
+</tr>
+<tr>
+<td style="text-align:center">微信</td>
+<td style="text-align:center">未知</td>
+<td style="text-align:center">No</td>
+<td style="text-align:center">TRUE</td>
+<td style="text-align:center">No</td>
+</tr>
+<tr>
+<td style="text-align:center">注册</td>
+<td style="text-align:center">未知</td>
+<td style="text-align:center">No</td>
+<td style="text-align:center">TRUE</td>
+<td style="text-align:center">Yes</td>
+</tr>
+<tr>
+<td style="text-align:center">微博</td>
+<td style="text-align:center">男</td>
+<td style="text-align:center">Yes</td>
+<td style="text-align:center">FALSE</td>
+<td style="text-align:center">No</td>
+</tr>
+<tr>
+<td style="text-align:center">微博</td>
+<td style="text-align:center">未知</td>
+<td style="text-align:center">No</td>
+<td style="text-align:center">FALSE</td>
+<td style="text-align:center">Yes</td>
+</tr>
+<tr>
+<td style="text-align:center">微信</td>
+<td style="text-align:center">男</td>
+<td style="text-align:center">No</td>
+<td style="text-align:center">FALSE</td>
+<td style="text-align:center">Yes</td>
+</tr>
+<tr>
+<td style="text-align:center">微博</td>
+<td style="text-align:center">男</td>
+<td style="text-align:center">No</td>
+<td style="text-align:center">TRUE</td>
+<td style="text-align:center">Yes</td>
+</tr>
+<tr>
+<td style="text-align:center">注册</td>
+<td style="text-align:center">男</td>
+<td style="text-align:center">Yes</td>
+<td style="text-align:center">TRUE</td>
+<td style="text-align:center">Yes</td>
+</tr>
+<tr>
+<td style="text-align:center">注册</td>
+<td style="text-align:center">女</td>
+<td style="text-align:center">No</td>
+<td style="text-align:center">FALSE</td>
+<td style="text-align:center">Yes</td>
+</tr>
+<tr>
+<td style="text-align:center">微信</td>
+<td style="text-align:center">男</td>
+<td style="text-align:center">Yes</td>
+<td style="text-align:center">TRUE</td>
+<td style="text-align:center">No</td>
+</tr>
+</tbody>
+</table>
+<p>我们会用上面表格中的数据集计算出一棵决策树，这棵决策树可以根据用户来源、性别、自定义头像、关注微博这四个字段来预测用户的活跃度。根据信息理论，信息熵越大对应事件的不确定性就越大，那么应用决策树进行预测的过程就是信息熵逐步减少的过程，每经过一个节点信息熵就会减少一些，当到达叶节点的时候事件已经确定了，信息熵应该减少到0。构建这棵的过程就是不断找寻能够让信息熵最快下降的路径。</p>
+<p>了解了构建决策树的原理和方向，是时候来看看信息熵的计算公式了</p>
+<p><img src="http://latex.codecogs.com/gif.latex?Entropy=-p_{i}\log_{2}&space;p_{i}"></p>
+<p>公式中P是相关事件的发生概率，公式就是相关事件概率乘以该概率以2为底的对数再加上负号。如果信息涉及到多个事件，那么就把所有事件的信息熵累加起来，所以更通用的信息熵公式为：</p>
+<p><img src="http://latex.codecogs.com/gif.latex?Entropy=-\sum_{i=0}^{n}&space;p_{i}\log_{2}&space;p_{i}"></p>
+<p>通过训练数据集我们可以算出活跃用户的概率为:9/14，非活跃用户的概率为：5/14，代入信息熵公式：</p>
+<pre><code>Entropy = -9.0/14.0 * log2(9.0/14.0) - 5.0/14.0 * log2(5.0/14.0) = 0.940
+</code></pre><p>我们计算出给出任何用户信息其信息熵为0.940，然后我们知道任何一个具体的属性信息，都可以降低信息熵，让是否是活跃用户的判断更明确。所以接下来需要计算每个属性的信息熵。</p>
+<p>账号来源</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">取值</th>
+<th style="text-align:center">活跃概率</th>
+<th style="text-align:center">不活跃概率</th>
+<th style="text-align:center">取值概率</th>
+<th style="text-align:center">信息熵</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">微博</td>
+<td style="text-align:center">0.4</td>
+<td style="text-align:center">0.6</td>
+<td style="text-align:center">5/14</td>
+<td style="text-align:center">0.971</td>
+</tr>
+<tr>
+<td style="text-align:center">注册</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">4/14</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">微信</td>
+<td style="text-align:center">0.6</td>
+<td style="text-align:center">0.4</td>
+<td style="text-align:center">5/14</td>
+<td style="text-align:center">0.971</td>
+</tr>
+</tbody>
+</table>
+<p>账号来源信息熵：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">5</span>/<span class="number">14</span> * <span class="number">0.971</span> + <span class="number">4</span>/<span class="number">14</span> * <span class="number">0</span> + <span class="number">5</span>/<span class="number">14</span> * <span class="number">0.971</span> = <span class="number">0.693</span></span><br></pre></td></tr></table></figure>
+<p>根据同样的原理，我们可以算出其他属性的信息熵，各个属性信息熵总结如下表：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">属性</th>
+<th style="text-align:center">信息熵</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">账号来源</td>
+<td style="text-align:center">0.693</td>
+</tr>
+<tr>
+<td style="text-align:center">性别</td>
+<td style="text-align:center">0.911</td>
+</tr>
+<tr>
+<td style="text-align:center">自定义头像</td>
+<td style="text-align:center">0.789</td>
+</tr>
+<tr>
+<td style="text-align:center">关注微博</td>
+<td style="text-align:center">0.892</td>
+</tr>
+</tbody>
+</table>
+<p>属性的熵表示了一旦知道某属性后的信息熵，那么也就是我们知道某条数据的“账号来源”属性，那么信息熵可以降低到0.693，而知道其他属性降低的信息熵都少于“账号来源”属性。构建决策树的时候需要选择信息熵下降最快的路径，这里显然我们应该选择“用户来源”作为决策树的根节点。选择好了根节点后的决策树如下：</p>
+<p><img src="/img/DecisionTree.png" alt="只有根节点的决策树"></p>
+<p>“用户来源”作为根节点，“用户来源”的每个取值都对应一个分支，当“用户来源”取值为“注册”时信息熵为0，所以“注册”分支指向叶子节点为“Yes”。接着我们需要确定“微博”分支和“微信”分支指向的决策节点分别是什么属性。我们可以把“微博”分支和“微信”分支分别看成整棵决策树的“微博”子树和“微信”子树。确定“微博”分支和“微信”分支指向哪个决策节点的过程就是利用训练数据集的子集分别找出“微博”子树和“微信”子树根节点的过程。</p>
+<p>下面我们同样通过信息熵的计算来确定“微博”子树的根节点。首先我们把所有“用户来源”属性取值为“微博”的训练数据过滤出来做为训练数据集。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">用户来源</th>
+<th style="text-align:center">性别</th>
+<th style="text-align:center">自定义头像</th>
+<th style="text-align:center">关注微博</th>
+<th style="text-align:center">是否活跃</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">微博</td>
+<td style="text-align:center">女</td>
+<td style="text-align:center">Yes</td>
+<td style="text-align:center">FALSE</td>
+<td style="text-align:center">No</td>
+</tr>
+<tr>
+<td style="text-align:center">微博</td>
+<td style="text-align:center">女</td>
+<td style="text-align:center">Yes</td>
+<td style="text-align:center">TRUE</td>
+<td style="text-align:center">No</td>
+</tr>
+<tr>
+<td style="text-align:center">微博</td>
+<td style="text-align:center">男</td>
+<td style="text-align:center">Yes</td>
+<td style="text-align:center">FALSE</td>
+<td style="text-align:center">No</td>
+</tr>
+<tr>
+<td style="text-align:center">微博</td>
+<td style="text-align:center">未知</td>
+<td style="text-align:center">No</td>
+<td style="text-align:center">FALSE</td>
+<td style="text-align:center">Yes</td>
+</tr>
+<tr>
+<td style="text-align:center">微博</td>
+<td style="text-align:center">男</td>
+<td style="text-align:center">No</td>
+<td style="text-align:center">TRUE</td>
+<td style="text-align:center">Yes</td>
+</tr>
+</tbody>
+</table>
+<p>通过子数据集我们可以知道用户来源为微博的用户中活跃用户的概率为:0.4,而不活跃用户的概率为:0.6,前文我们已经计算出来当用户来源为“微博”的信息熵为:0.971。接下来计算在子数据集中各个属性的信息熵。</p>
+<p>自定义头像</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">取值</th>
+<th style="text-align:center">活跃概率</th>
+<th style="text-align:center">不活跃概率</th>
+<th style="text-align:center">取值概率</th>
+<th style="text-align:center">信息熵</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Yes</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0.6</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">No</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0.4</td>
+<td style="text-align:center">0</td>
+</tr>
+</tbody>
+</table>
+<p>通过上表，我们可以看出“自定义头像”的信息熵为：0</p>
+<p>性别</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">取值</th>
+<th style="text-align:center">活跃概率</th>
+<th style="text-align:center">不活跃概率</th>
+<th style="text-align:center">取值概率</th>
+<th style="text-align:center">信息熵</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">女</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0.4</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">男</td>
+<td style="text-align:center">0.5</td>
+<td style="text-align:center">0.5</td>
+<td style="text-align:center">0.4</td>
+<td style="text-align:center">1.0</td>
+</tr>
+<tr>
+<td style="text-align:center">未知</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0.2</td>
+<td style="text-align:center">0</td>
+</tr>
+</tbody>
+</table>
+<p>性别属性的信息熵为：1.0</p>
+<p>关注微博</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">取值</th>
+<th style="text-align:center">活跃概率</th>
+<th style="text-align:center">不活跃概率</th>
+<th style="text-align:center">取值概率</th>
+<th style="text-align:center">信息熵</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">TRUE</td>
+<td style="text-align:center">0.5</td>
+<td style="text-align:center">0.5</td>
+<td style="text-align:center">0.4</td>
+<td style="text-align:center">1.0</td>
+</tr>
+<tr>
+<td style="text-align:center">FALSE</td>
+<td style="text-align:center">1.0/3.0</td>
+<td style="text-align:center">2.0/3.0</td>
+<td style="text-align:center">0.6</td>
+<td style="text-align:center">0.918</td>
+</tr>
+</tbody>
+</table>
+<p>关注微博的信息熵为：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0.4</span> * <span class="number">1.0</span> + <span class="number">0.6</span> * <span class="number">0.918</span> = <span class="number">0.9508</span></span><br></pre></td></tr></table></figure>
+<p>明显选择“自定义头像”属性，信息熵的下降速度最快，所以“微博”子树的根节点为“自定义头像”。由于“自定义头像”的信息熵为0，所以“自定义头像”节点的下层节点是叶子节点。现在我们构建的决策树，“微博”子树已经完成如下图：</p>
+<p><img src="/img/DecisionTreeWeibo.png" alt="完成“微博”子树的决策树"></p>
+<p>接下来我们来选择“微信”子树的根节点，下面是“微信”子树的训练数据集</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">用户来源</th>
+<th style="text-align:center">性别</th>
+<th style="text-align:center">自定义头像</th>
+<th style="text-align:center">关注微博</th>
+<th style="text-align:center">是否活跃</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">微信</td>
+<td style="text-align:center">男</td>
+<td style="text-align:center">Yes</td>
+<td style="text-align:center">FALSE</td>
+<td style="text-align:center">Yes</td>
+</tr>
+<tr>
+<td style="text-align:center">微信</td>
+<td style="text-align:center">未知</td>
+<td style="text-align:center">No</td>
+<td style="text-align:center">FALSE</td>
+<td style="text-align:center">Yes</td>
+</tr>
+<tr>
+<td style="text-align:center">微信</td>
+<td style="text-align:center">未知</td>
+<td style="text-align:center">No</td>
+<td style="text-align:center">TRUE</td>
+<td style="text-align:center">No</td>
+</tr>
+<tr>
+<td style="text-align:center">微信</td>
+<td style="text-align:center">男</td>
+<td style="text-align:center">No</td>
+<td style="text-align:center">FALSE</td>
+<td style="text-align:center">Yes</td>
+</tr>
+<tr>
+<td style="text-align:center">微信</td>
+<td style="text-align:center">男</td>
+<td style="text-align:center">Yes</td>
+<td style="text-align:center">TRUE</td>
+<td style="text-align:center">No</td>
+</tr>
+</tbody>
+</table>
+<p>通过子数据集我们可以知道用户来源为微博的用户中活跃用户的概率为:0.6,而不活跃用户的概率为:0.4,前文我们已经计算出来当用户来源为“微信”的信息熵为:0.971。接下来计算在子数据集中各个属性的信息熵。</p>
+<p>性别</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">取值</th>
+<th style="text-align:center">活跃概率</th>
+<th style="text-align:center">不活跃概率</th>
+<th style="text-align:center">取值概率</th>
+<th style="text-align:center">信息熵</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">男</td>
+<td style="text-align:center">0.2/0.3</td>
+<td style="text-align:center">0.1/0.3</td>
+<td style="text-align:center">0.6</td>
+<td style="text-align:center">0.918</td>
+</tr>
+<tr>
+<td style="text-align:center">未知</td>
+<td style="text-align:center">0.5</td>
+<td style="text-align:center">0.5</td>
+<td style="text-align:center">0.4</td>
+<td style="text-align:center">1.0</td>
+</tr>
+</tbody>
+</table>
+<p>性别属性的信息熵为：0.9508</p>
+<p>自定义头像</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">取值</th>
+<th style="text-align:center">活跃概率</th>
+<th style="text-align:center">不活跃概率</th>
+<th style="text-align:center">取值概率</th>
+<th style="text-align:center">信息熵</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Yes</td>
+<td style="text-align:center">0.5</td>
+<td style="text-align:center">0.5</td>
+<td style="text-align:center">0.4</td>
+<td style="text-align:center">1.0</td>
+</tr>
+<tr>
+<td style="text-align:center">No</td>
+<td style="text-align:center">2.0/3.0</td>
+<td style="text-align:center">1.0/3.0</td>
+<td style="text-align:center">0.6</td>
+<td style="text-align:center">0.918</td>
+</tr>
+</tbody>
+</table>
+<p>通过上表，我们可以看出“自定义头像”的信息熵为：0.918</p>
+<p>关注微博</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">取值</th>
+<th style="text-align:center">活跃概率</th>
+<th style="text-align:center">不活跃概率</th>
+<th style="text-align:center">取值概率</th>
+<th style="text-align:center">信息熵</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">TRUE</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0.4</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">FALSE</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0.6</td>
+<td style="text-align:center">0</td>
+</tr>
+</tbody>
+</table>
+<p>关注微博的信息熵为：0</p>
+<p>依据上面的计算，显然“关注微博”属性的信息熵下降得最多，所以“微信”子树的根节点选择为“关注微博”。“关注微博”的取值的信息熵都为0，所以“关注微博”的下层节点都是叶子节点。到此完整的决策树已经构建出来了。</p>
+<p><img src="/img/DecisionTreeWX.png" alt="完成“微博”子树的决策树"></p>
+<p>完整的决策树中“性别”属性不见了踪影，由于“性别”信息与是否是活跃用户之间的不确定性太高也就是信息熵过大，所以没有出现在决策树中，这是决策树算法的一个优点，可以排除无用的数据维度。回顾构建决策树的过程，我们不难发现这是一个递归的过程，如果我们用程序来实现ID3算法构建决策树应该是比较简单。当然，决策树也有很多局限性，容易过拟合，不容易处理连续数据，需要训练数据各类别数据量差不多一致，无法处理数据缺失。</p>
+<p>为了克服决策树的各种缺点，我们可以构建一片决策树组成的森林，这就是随机森林的出发点。我们下一步征程将是那片森林。</p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/分类器-决策树/" rel="tag">#分类器 决策树</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/12/24/社交网络大数据平台狂想/" rel="next" title="社交网络大数据平台狂想">
+                <i class="fa fa-chevron-left"></i> 社交网络大数据平台狂想
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/01/07/森林的尽头--浅议随机森林算法原理/" rel="prev" title="森林的尽头--浅议随机森林算法原理">
+                森林的尽头--浅议随机森林算法原理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+
+        
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="Leeuan" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Leeuan</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Leeuan</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+    
+
+  
+
+
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+
+  
+  
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+</body>
+</html>
