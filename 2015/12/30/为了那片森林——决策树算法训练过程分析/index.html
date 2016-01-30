@@ -22,7 +22,7 @@ The machine learning puts off it’s mask of vastness to it’s love.It becomes 
 <meta property="og:image" content="http://yoursite.com/img/DecisionTree.png">
 <meta property="og:image" content="http://yoursite.com/img/DecisionTreeWeibo.png">
 <meta property="og:image" content="http://yoursite.com/img/DecisionTreeWX.png">
-<meta property="og:updated_time" content="2016-01-29T15:35:36.000Z">
+<meta property="og:updated_time" content="2016-01-30T17:04:01.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="为了那片森林--决策树算法训练过程分析">
 <meta name="twitter:description" content="这是一篇写机器算法的东西，希望能借此掀开机器学习算法面纱的一角，让我们可以和机器学习算法开始愉快的玩耍。文章开始前，来首泰戈尔的诗烘托一下气氛
@@ -125,7 +125,7 @@ The machine learning puts off it’s mask of vastness to it’s love.It becomes 
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/NLP-深度学习/" style="font-size: 10px;">NLP 深度学习</a> <a href="/tags/分类器-人工神经网络/" style="font-size: 20px;">分类器 人工神经网络</a> <a href="/tags/分类器-决策树/" style="font-size: 10px;">分类器 决策树</a> <a href="/tags/分类器-随机森林/" style="font-size: 10px;">分类器 随机森林</a> <a href="/tags/大数据/" style="font-size: 10px;">大数据</a>
+						<a href="/tags/NLP/" style="font-size: 10px;">NLP</a> <a href="/tags/人工神经网络/" style="font-size: 10px;">人工神经网络</a> <a href="/tags/决策树/" style="font-size: 10px;">决策树</a> <a href="/tags/分类器/" style="font-size: 20px;">分类器</a> <a href="/tags/分类器-人工神经网络/" style="font-size: 10px;">分类器 人工神经网络</a> <a href="/tags/分类器-随机森林/" style="font-size: 10px;">分类器 随机森林</a> <a href="/tags/大数据/" style="font-size: 10px;">大数据</a> <a href="/tags/深度学习/" style="font-size: 10px;">深度学习</a>
 					</div>
 				</section>
 				
@@ -221,7 +221,7 @@ The machine learning puts off it’s mask of vastness to it’s love.It becomes 
       <div class="article-info article-info-post">
         
 	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/分类器-决策树/">分类器 决策树</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/决策树/">决策树</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/分类器/">分类器</a></li></ul>
 	</div>
 
         
@@ -236,17 +236,13 @@ The machine learning puts off it’s mask of vastness to it’s love.It becomes 
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>这是一篇写机器算法的东西，希望能借此掀开机器学习算法面纱的一角，让我们可以和机器学习算法开始愉快的玩耍。文章开始前，来首泰戈尔的诗烘托一下气氛</p>
-<blockquote>
-<p>The machine learning puts off it’s mask of vastness to it’s love.<br><br>It becomes small as one song, as one kiss of the eternal.<br><br>（机器学习在情人面前宽衣解带，绵长如舌吻，纤细如诗行–冯唐译本人改编）</p>
-</blockquote>
-<a id="more"></a>
-<p><img src="/img/forest.jpg" alt="只有根节点的决策树"></p>
+        <p><img src="/img/forest.jpg" alt="只有根节点的决策树"></p>
 <p>这是一篇写机器算法的东西，希望能借此掀开机器学习算法面纱的一角，让我们可以和机器学习算法开始愉快的玩耍。文章开始前，来首泰戈尔的诗烘托一下气氛</p>
 <blockquote>
 <p>The machine learning puts off it’s mask of vastness to it’s love.<br><br>It becomes small as one song, as one kiss of the eternal.<br><br>（机器学习在情人面前宽衣解带，绵长如舌吻，纤细如诗行–冯唐译本人改编）</p>
 </blockquote>
 <p>机器学习算法是一种自动地从数据中学习的一些算法。与手工编程相比，机器学习非常的有Bigger，充满了黑科技味道，事实上，当数据非常巨大的时候人力很难去正确的了解和掌握数据的全貌和细节，手工编程几乎没有可能，所以机器学习几乎是一种不可缺少的算法了。在过去的20年中，机器学习已经迅速地在计算机科学等领域普及。机器学习被用于网络搜索、垃圾邮件过滤、人脸识别、语音识别、人机对话、推荐系统、广告投放、信用评价、欺诈检测、股票交易，疾病诊断等方面。由于充满了“黑科技“味道，吓退了一大批”战士“，但是我们是那名叫大卫的”牧童“专用黑科技（这句看不懂？参考前面的文章），所以机器学习是我们和大数据周旋的大杀器。机器学习算法中分类算法是一系列非常常用的算法，而随机森林是一种容易理解应用广泛的分类算法，大量的理论和实证研究都证明了随机森林具有很高的预测准确率，对异常值和噪声具有很好的容忍度，且不容易出现过拟合。可以说，随机森林是一种人类好理解的非线性建模工具，是当前数据挖掘算法最热门的前沿研究领域之一。</p>
+<a id="more"></a>
 <p>要了解随机森林，我们必须先了解组成森林的一棵棵决策树。随机森林由多棵决策树组成，同时决策树也可以单独作为分类算法使用。为了那片随机森林我们就先从决策树的训练过程开始吧。决策树是一种监督学习算法，通过训练数据构建决策树的过程就是其算法的核心。</p>
 <p>决策树的训练过程就是从一组无次序、无规则的数据中推理出以树形结构表示的分类规则。通常每条数据都有多个属性，而数据的某些属性或者全部属性决定了数据的分类。训练好的决策树的每个叶子节点都表示分类的结果，而非叶节点都根据某一属性进行判断的决策节点。判断一条数据的类别就是从根节点开始“走”到叶节点的过程。如何从数据中自动推理和构建决策树，有多种算法，其中ID3算法是一种基于信息论的算法，实践证明这种算法够简单够有效，便于人类理解。</p>
 <p>首先，我们需要了解一下信息论的一个概念：信息熵。信息熵是衡量信息不确定性的度量，按照信息论的理论，当我们被告知一个极不可能发生的事情发生了，例如奥巴马亲吻了金正恩，那我们就接收到了更多的信息，我们看这条消息，多半会说信息量好大；而当我们得知一个非常常见的事情发生了，例如太阳会从东边升起，那么我们就接收到了相对较少的信息量，这个事情我们早知道一定会发生，信息量为0。如何计算信息熵，这里先按下不表，我们先来看看我们的训练样本数据集,假设我们有一个手机APP的用户列表。</p>
