@@ -112,7 +112,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/NLP/" style="font-size: 10px;">NLP</a> <a href="/tags/人工神经网络/" style="font-size: 15px;">人工神经网络</a> <a href="/tags/决策树/" style="font-size: 10px;">决策树</a> <a href="/tags/分类器/" style="font-size: 20px;">分类器</a> <a href="/tags/大数据/" style="font-size: 10px;">大数据</a> <a href="/tags/深度学习/" style="font-size: 10px;">深度学习</a> <a href="/tags/随机森林/" style="font-size: 10px;">随机森林</a>
+						<a href="/tags/ConvNets/" style="font-size: 10px;">ConvNets</a> <a href="/tags/NLP/" style="font-size: 10px;">NLP</a> <a href="/tags/人工神经网络/" style="font-size: 15px;">人工神经网络</a> <a href="/tags/决策树/" style="font-size: 10px;">决策树</a> <a href="/tags/分类器/" style="font-size: 20px;">分类器</a> <a href="/tags/卷积神经网络/" style="font-size: 10px;">卷积神经网络</a> <a href="/tags/大数据/" style="font-size: 10px;">大数据</a> <a href="/tags/深度学习/" style="font-size: 15px;">深度学习</a> <a href="/tags/随机森林/" style="font-size: 10px;">随机森林</a>
 					</div>
 				</section>
 				
@@ -183,6 +183,184 @@
 </nav>
 
       <div class="body-wrap">
+  
+    <article id="post-AlphaGo胜利背后的深度学习" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/14/AlphaGo胜利背后的深度学习/" class="article-date">
+  	<time datetime="2016-03-13T16:00:00.000Z" itemprop="datePublished">2016-03-14</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/14/AlphaGo胜利背后的深度学习/">AlphaGo背后的卷积神经网络（一）</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Alpha Go 与李世乭的围棋对弈向大家展示了人工智能的强大，大部分围棋专业人士都在称赞 Alpha Go 有大局观，下棋像人的思维。这次比赛必定将成为人工智能技术的一个里程碑。与20年前IBM的深蓝战胜人类国际象棋大师卡斯帕罗夫相比Alpha Go在技术方面有着明显的不同，深蓝的算法中对棋局的判断是通过一个人工编写的评估函数来执行的，这个评估函数是科学家和人类国际象棋高手共同完成的，可以说深蓝的胜利是众多国际象棋高手和计算机科学家对卡斯帕罗夫的胜利。但是对于围棋而言，人类建立的围棋理论相当抽象，无法写出有效的评估函数，所以Alpha Go采用了深度学习的方式，通过大量数据的有监督学习，从而获得了一个围棋局势评估的模型。通过DeepMind发表在《自然》的论文，我们可以知道Alpha Go 由两套卷积神经网络和一棵蒙特卡洛树组成，其中一套被称作策略网络的卷积神经网络用于决定下一步落子可能的位置，另一套被称作值网络的卷积神经网络用于评估当前棋局获胜的概率。毫无疑问，Alpha Go 的胜利证明了卷积神经网络的强大和通用性。接下来这里讲尽可能通俗地介绍一下卷积神经网络。</p>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/分类器/">分类器</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/卷积神经网络/">卷积神经网络</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/机器学习/">机器学习</a>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/03/14/AlphaGo胜利背后的深度学习/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-RM研发" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/08/RM研发/" class="article-date">
+  	<time datetime="2016-03-07T16:00:00.000Z" itemprop="datePublished">2016-03-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/08/RM研发/">Remark Media 研发能力介绍</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Remark Media 把社交大数据平台上积累的大量图片数据和文本数据与人工智能相结合，利用深度学习技术研发了人脸识别、商标识别、文字识别、自然语言情感分析，文本分类等技术。这些前沿技术将有力的支撑起 Remark Media 在大数据挖掘和应用领域的竞争力。Remark Media 将利用这些技术研发出领先的大数据分析产品，同时也将逐步实现这些技术的产品，提供给合作使用。其中，人脸识别已经产品化，成功的提供给第三方应用于智慧农业农产品溯源项目中。</p>
+<p><img src="http://www.36dsj.com/wp-content/uploads/2015/03/122-600x240.png" alt=""></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-深度学习领域的大明星“卷积神经网络”(一)" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/01/26/深度学习领域的大明星“卷积神经网络”(一)/" class="article-date">
+  	<time datetime="2016-01-25T16:00:00.000Z" itemprop="datePublished">2016-01-26</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/01/26/深度学习领域的大明星“卷积神经网络”(一)/">深度学习领域的大明星“卷积神经网络”(一)</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ConvNets/">ConvNets</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/深度学习/">深度学习</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/机器学习/">机器学习</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
   
     <article id="post-当自然语言遇到深度学习" class="article article-type-post" itemscope itemprop="blogPost">
   

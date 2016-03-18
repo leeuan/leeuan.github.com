@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>AlphaGo背后的卷积神经网络（一） | Bit Mind</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Alpha Go 与李世乭的围棋对弈向大家展示了人工智能的强大，大部分围棋专业人士都在称赞 Alpha Go 有大局观，下棋像人的思维。这次比赛必定将成为人工智能技术的一个里程碑。与20年前IBM的深蓝战胜人类国际象棋大师卡斯帕罗夫相比Alpha Go在技术方面有着明显的不同，深蓝的算法中对棋局的判断是通过一个人工编写的评估函数来执行的，这个评估函数是科学家和人类国际象棋高手共同完成的，可以说深蓝">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AlphaGo背后的卷积神经网络（一）">
+<meta property="og:url" content="http://yoursite.com/2016/03/14/AlphaGo胜利背后的深度学习/index.html">
+<meta property="og:site_name" content="Bit Mind">
+<meta property="og:description" content="Alpha Go 与李世乭的围棋对弈向大家展示了人工智能的强大，大部分围棋专业人士都在称赞 Alpha Go 有大局观，下棋像人的思维。这次比赛必定将成为人工智能技术的一个里程碑。与20年前IBM的深蓝战胜人类国际象棋大师卡斯帕罗夫相比Alpha Go在技术方面有着明显的不同，深蓝的算法中对棋局的判断是通过一个人工编写的评估函数来执行的，这个评估函数是科学家和人类国际象棋高手共同完成的，可以说深蓝">
+<meta property="og:image" content="http://yoursite.com/img/cnn.jpg">
+<meta property="og:image" content="http://yoursite.com/img/convolution.jpg">
+<meta property="og:image" content="http://yoursite.com/img/convolution1.png">
+<meta property="og:image" content="http://yoursite.com/img/conv1.PNG">
+<meta property="og:image" content="http://yoursite.com/img/conv2.PNG">
+<meta property="og:image" content="http://yoursite.com/img/pooling.gif">
+<meta property="og:updated_time" content="2016-03-18T07:07:49.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AlphaGo背后的卷积神经网络（一）">
+<meta name="twitter:description" content="Alpha Go 与李世乭的围棋对弈向大家展示了人工智能的强大，大部分围棋专业人士都在称赞 Alpha Go 有大局观，下棋像人的思维。这次比赛必定将成为人工智能技术的一个里程碑。与20年前IBM的深蓝战胜人类国际象棋大师卡斯帕罗夫相比Alpha Go在技术方面有着明显的不同，深蓝的算法中对棋局的判断是通过一个人工编写的评估函数来执行的，这个评估函数是科学家和人类国际象棋高手共同完成的，可以说深蓝">
+  
+    <link rel="alternative" href="/atom.xml" title="Bit Mind" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://assets.worldwildlife.org/photos/806/images/hero_small/SCR_47384.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Leeuan</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">一个需要思考才能存活的胖子</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/categories">分类</a></li>
+				        
+							<li><a href="/archives">归档</a></li>
+				        
+							<li><a href="/tags">标签</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/ConvNets/" style="font-size: 10px;">ConvNets</a> <a href="/tags/NLP/" style="font-size: 10px;">NLP</a> <a href="/tags/人工神经网络/" style="font-size: 15px;">人工神经网络</a> <a href="/tags/决策树/" style="font-size: 10px;">决策树</a> <a href="/tags/分类器/" style="font-size: 20px;">分类器</a> <a href="/tags/卷积神经网络/" style="font-size: 10px;">卷积神经网络</a> <a href="/tags/大数据/" style="font-size: 10px;">大数据</a> <a href="/tags/深度学习/" style="font-size: 15px;">深度学习</a> <a href="/tags/随机森林/" style="font-size: 10px;">随机森林</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">托蒂的博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">一个需要不停和计算机打交道的人，一位父亲，终生学习者</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Leeuan</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+			
+				<img lazy-src="http://assets.worldwildlife.org/photos/806/images/hero_small/SCR_47384.jpg" class="js-avatar">
+			
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Leeuan</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">一个需要思考才能存活的胖子</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/categories">分类</a></li>
+		        
+					<li><a href="/archives">归档</a></li>
+		        
+					<li><a href="/tags">标签</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-AlphaGo胜利背后的深度学习" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/14/AlphaGo胜利背后的深度学习/" class="article-date">
+  	<time datetime="2016-03-13T16:00:00.000Z" itemprop="datePublished">2016-03-14</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      AlphaGo背后的卷积神经网络（一）
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/分类器/">分类器</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/卷积神经网络/">卷积神经网络</a></li></ul>
+	</div>
+
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/机器学习/">机器学习</a>
+	</div>
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Alpha Go 与李世乭的围棋对弈向大家展示了人工智能的强大，大部分围棋专业人士都在称赞 Alpha Go 有大局观，下棋像人的思维。这次比赛必定将成为人工智能技术的一个里程碑。与20年前IBM的深蓝战胜人类国际象棋大师卡斯帕罗夫相比Alpha Go在技术方面有着明显的不同，深蓝的算法中对棋局的判断是通过一个人工编写的评估函数来执行的，这个评估函数是科学家和人类国际象棋高手共同完成的，可以说深蓝的胜利是众多国际象棋高手和计算机科学家对卡斯帕罗夫的胜利。但是对于围棋而言，人类建立的围棋理论相当抽象，无法写出有效的评估函数，所以Alpha Go采用了深度学习的方式，通过大量数据的有监督学习，从而获得了一个围棋局势评估的模型。通过DeepMind发表在《自然》的论文，我们可以知道Alpha Go 由两套卷积神经网络和一棵蒙特卡洛树组成，其中一套被称作策略网络的卷积神经网络用于决定下一步落子可能的位置，另一套被称作值网络的卷积神经网络用于评估当前棋局获胜的概率。毫无疑问，Alpha Go 的胜利证明了卷积神经网络的强大和通用性。接下来这里讲尽可能通俗地介绍一下卷积神经网络。</p>
+<a id="more"></a>
+<h2>卷积神经网络简介</h2>
+
+<p>卷积神经网络是一种特殊的深度人工神经网络。卷积网络最初是受视觉神经机制的启发而设计的，是为识别二维形状而设计的一种多层人工神经网络，这种网络结构对物体平移、比例缩放、倾斜或者共他 形式的变形具有高度不变性。1962年 Hubel 和 Wiesel 通过对猫视觉皮层细胞的研究，发现了处理视觉信息的不同神经元只对图片的局部信息敏感，从而提出了感受野(receptive field)的概念，1984年日本学者 Fukushima 基于感受野概念提出的神经认知机(neocognitron)模型，它可以看作是卷积神经网络的第一个实现网络，也是感受野概念在人工神经网络领域的首次应用。我们不用去纠结生物神经学里的各种概念，卷积神经网络只是受到了生物学的启发而已并不是完全模仿生物的视觉神经系统。</p>
+<p>我们可以把卷积神经网络分成两个部分：卷积抽样层和BP神经网络。其中卷积抽样层的作用是从原始的数据（例如图像数据）中提取出让BP神经网络能够进行分类的特征数据。例如在图像识别领域为了完成图片的分类需要通过特定的图像处理程序来获取图片的特征例如边缘轮廓特征，色彩分布特征等，但是事实上这些特征不是最适合通过机器学习的模型进行分类的特征，深度学习的思路就是利用机器学习的方式来获取适合机器模型的特征，卷积神经网络里面一般使用BP神经网络作为分类器。</p>
+<p><img src="/img/cnn.jpg" alt="卷积神经网络结构"></p>
+<p>如上图展示的那样分成两个部分：左边是两个卷积层和采集层，最右边是一个BP神经网络。</p>
+<h2>卷积运算</h2>
+
+<p>卷积运算操作是源于信号处理的一种滤波运算，例如为了降低信号噪音的高斯过滤，我们把图像看出一种信号源，那么卷积操作也就可以被用于图像相关的各种过滤操作，例如前面提到的高斯滤波卷积运算应用于图像就是我们常用的图像处理效果高斯模糊。卷积运算是物理学家发明的运算，但是它有着严谨的数学逻辑，但我们这里不打算展开推导卷积运算的过程，我们可以把卷积运算理解为：“加权平均积”。对于图像处理我们都是采用的二维卷积，本文以下部分的卷积都是指的二维卷积。对于图像处理的卷积运算可以表达为如下的公式：</p>
+<p>$$g(i,j) = \sum_{k,l}f(i-k,j-l)h(k,l)$$</p>
+<p>上面公式中h被称作卷积核或者卷积算子，f就是需要处理的位图，f(i,j)表示位图上坐标为(i,j)点上的颜色值。公式看起来还是比较抽象，下面这张图就更好的解释了卷积计算是如何进行的。</p>
+<p><img src="/img/convolution.jpg" alt="卷积神经网络结构"></p>
+<p>上图中一个3*3的卷积核在图片上分别按横轴和纵轴逐像素移动，卷积核的中心点对应的图片像素点的颜色值被赋值为卷积核上与图片对应像素点的颜色的乘积和。</p>
+<p><img src="/img/convolution1.png" alt="卷积神经网络结构"></p>
+<p>例如上图，利用如下卷积核对位图进行卷积<br>$$<br>\left[<br>\begin{array}{cc}<br>8 &amp; 1 &amp; 6 \\<br>3 &amp; 5 &amp; 7 \\<br>4 &amp; 9 &amp; 2<br>\end{array}<br>\right]<br>$$<br>卷积后位图(4,2)位置的颜色值被赋值为585,具体计算过程为:</p>
+<pre><code>1 * 8 + 8 * 1 + 15 * 6 + 7 * 3 + 14 * 5 + 16 * 7 + 13 * 4 + 20 * 9 + 22 * 2
+</code></pre><p>对于卷积运算后像素颜色值超过255的问题可以使用均值为0的归一化算法处理。</p>
+<h2>卷积运算的作用</h2>
+
+<p>卷积运算本身并不复杂，但是它实际的意义是什么呢？</p>
+<p>抛开信号处理相关的数学理论，从一个便于理解的角度来讲二维卷积就是通过卷积运算让图像中某一点接收周围像素的影响把自身的颜色值变大或者缩小，具体缩小还是放大取决于卷积核的取值。例如我们sobel卷积核对图片进行卷积运算，可以让图片中的所有边缘轮廓变亮而非边缘轮廓的部分都变暗。<br>卷积前的图片</p>
+<p><img src="/img/conv1.PNG" alt="卷积神经网络结构"></p>
+<p>卷积后的图片</p>
+<p><img src="/img/conv2.PNG" alt="卷积神经网络结构"></p>
+<p>对于整个卷积神经网络而言语卷积核就是一个矩阵，通过卷积运算可以获取更便于识别的特征。卷积核是通过监督学习获取的，我们先随机初始化一个卷积核，通过BP神经网络反馈过来的损失值会被用于调整卷积核的值。</p>
+<h2>局部采样</h2>
+
+<p>卷积神经网络的前半部分除了卷积运算外为了减少复杂度还需要进行局部采样。一般情况下都是采样最大值采样，如下图所示最大值采样就是从图片的一个区域中找到颜色值最大的那个点代表整个区域的颜色值。</p>
+<p><img src="/img/pooling.gif" alt="卷积神经网络结构"></p>
+<p>假设下面矩阵m是位图，我们用一个2*2的最大值采样对m进行采样就会得到矩阵n</p>
+<p>矩阵m<br>$$<br>\left[<br>\begin{matrix}<br>12 &amp; 13 &amp; 6 &amp; 27 \\<br>31 &amp; 23 &amp; 71 &amp; 45 \\<br>41 &amp; 93 &amp; 22 &amp; 29 \\<br>91 &amp; 43 &amp; 23 &amp; 72 \\<br>\end{matrix}<br>\right]<br>$$</p>
+<p>采样后得到的矩阵n</p>
+<p>$$<br>\left[<br>\begin{matrix}<br>31 &amp; 71  \\<br>93 &amp; 72  \\<br>\end{matrix}<br>\right]<br>$$</p>
+<p>另一种采样方式就是平均值采样。把采样区块内的像素颜色平均值作为采样后的结果，对矩阵m进行2*2的平均值采样将得到下面的矩阵。</p>
+<p>$$<br>\left[<br>\begin{matrix}<br>19.75 &amp; 37.25  \\<br>67.0 &amp; 36.5  \\<br>\end{matrix}<br>\right]<br>$$</p>
+<p>我们现在已经清楚了卷积神经网络特征提取部分的基本原理，下一步我们将继续探索卷积神经网络的网络结构和训练相关的内容</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/03/08/RM研发/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Remark Media 研发能力介绍</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 Leeuan
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+</body>
+</html>
