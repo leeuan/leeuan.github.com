@@ -15,10 +15,11 @@
 <meta property="og:image" content="http://yoursite.com/img/cnn.jpg">
 <meta property="og:image" content="http://yoursite.com/img/convolution.jpg">
 <meta property="og:image" content="http://yoursite.com/img/Convolution_schematic.gif">
+<meta property="og:image" content="http://yoursite.com/img/g1.png">
 <meta property="og:image" content="http://yoursite.com/img/conv1.PNG">
 <meta property="og:image" content="http://yoursite.com/img/conv2.PNG">
 <meta property="og:image" content="http://yoursite.com/img/pooling.gif">
-<meta property="og:updated_time" content="2016-04-01T09:19:02.000Z">
+<meta property="og:updated_time" content="2016-04-01T09:31:22.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AlphaGo背后的卷积神经网络（一）">
 <meta name="twitter:description" content="Alpha Go 与李世乭的围棋对弈向大家展示了人工智能的强大，大部分围棋专业人士都在称赞 Alpha Go 有大局观，下棋像人的思维。这次比赛必定将成为人工智能技术的一个里程碑。与20年前IBM的深蓝战胜人类国际象棋大师卡斯帕罗夫相比Alpha Go在技术方面有着明显的不同，深蓝的算法中对棋局的判断是通过一个人工编写的评估函数来执行的，这个评估函数是科学家和人类国际象棋高手共同完成的，可以说深蓝">
@@ -246,8 +247,9 @@
 <p><img src="/img/convolution.jpg" alt="卷积神经网络结构"><br>图2</p>
 <p>上图中一个3*3的卷积核在图片上分别按横轴和纵轴逐像素移动，卷积核的中心点对应的图片像素点的颜色值被赋值为卷积核上与图片对应像素点的颜色的乘积和。</p>
 <p><img src="/img/Convolution_schematic.gif" alt="卷积神经网络结构"><br>图3</p>
-<p>例如上图已经演示了利用如下卷积核对位图进行卷积的操作<br>$$<br>\left[<br>\begin{array}{cc}<br>1 &amp; 0 &amp; 1 \\<br>0 &amp; 1 &amp; 0 \\<br>1 &amp; 0 &amp; 1<br>\end{array}<br>\right]<br>$$<br>卷积后位图(2,2)位置的颜色值被赋值为4,具体计算过程为:</p>
-<p>$$<br>\begin{aligned}<br>f(2,2) =  f(1,1)<em>h(0,0)+f(2,1)</em>h(1,0)+f(3,1)<em>h(2,0)\\<br>         +f(1,2)</em>h(0,1)+f(2,2)<em>h(1,1)+f(3,2)</em>h(2,1)\\<br>         +f(1,3)<em>h(0,2)+f(2,3)</em>h(1,2)+f(3,3)<em>h(2,2)\\<br>       = 1</em>1+1<em>0+1</em>1\\<br>         +0<em>0+1</em>1+1<em>0\\<br>         +0</em>0+1<em>1+1</em>0 \\<br>       = 4<br>\end{aligned}<br>$$</p>
+<p>例如上图已经演示了利用如下卷积核对位图进行卷积的操作<br>$$<br>\left[<br>\begin{array}{cc}<br>1 &amp; 0 &amp; 1 \\<br>0 &amp; 1 &amp; 0 \\<br>1 &amp; 0 &amp; 1<br>\end{array}<br>\right]<br>$$</p>
+<p>卷积后位图(2,2)位置的颜色值被赋值为4,具体计算过程为:</p>
+<p><img src="/img/g1.png" alt=""></p>
 <p>对于卷积运算后像素颜色值超过255的问题可以使用均值为0的归一化算法处理。</p>
 <h2>卷积运算的作用</h2>
 
